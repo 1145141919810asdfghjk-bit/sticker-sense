@@ -1,0 +1,40 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ["3.10", "3.12"]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: 安装依赖
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+
+      - name: 生成示例表情
+        run: python scripts/make_demo.py
+
+      - name: 识别自测（指纹 / 负样本 / 歧义）
+        run: python scripts/selftest.py
+
+      - name: MCP 协议自测
+        run: python scripts/test_mcp.py
+
+      - name: 管理端自测
+        run: python scripts/test_admin.py
