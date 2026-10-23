@@ -1,0 +1,27 @@
+# 数据与生成的图不进仓库
+data/
+demo/
+*.db
+*.db-wal
+*.db-shm
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+
+# 截图与临时产物
+*_shot.png
+*_now.png
+docs/*.tmp
+widget.log
+_incoming/
+
+# 编辑器
+.vscode/
+.idea/
+.DS_Store

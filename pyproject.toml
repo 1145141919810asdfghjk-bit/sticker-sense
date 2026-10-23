@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sticker-sense"
+version = "0.2.0"
+description = "给你的 AI 一个能读懂的表情包图库"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "sticker-sense contributors" }]
+keywords = ["mcp", "emoji", "sticker", "llm", "agent"]
+dependencies = ["Pillow>=10.0"]
+
+[project.optional-dependencies]
+# 桌面挂件需要 tkinter，Linux 上要单独装 python3-tk
+widget = []
+
+[project.scripts]
+sticker = "sticker_sense.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/1145141919810asdfghjk-bit/sticker-sense"
+
+[tool.setuptools]
+packages = ["sticker_sense"]
