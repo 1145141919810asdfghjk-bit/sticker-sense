@@ -9,6 +9,7 @@ import tkinter as tk
 from pathlib import Path
 
 from PIL import ImageGrab
+import _utf8  # noqa: F401  Windows 控制台默认 cp1252，不切 print 中文会崩
 
 OUT = Path(__file__).resolve().parent.parent
 

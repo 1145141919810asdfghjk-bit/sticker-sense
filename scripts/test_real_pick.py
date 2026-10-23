@@ -8,6 +8,7 @@ import json
 import sys
 import time
 from pathlib import Path
+import _utf8  # noqa: F401  Windows 控制台默认 cp1252，不切 print 中文会崩
 
 user32 = ctypes.windll.user32
 

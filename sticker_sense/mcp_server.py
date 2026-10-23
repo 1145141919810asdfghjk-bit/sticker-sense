@@ -375,14 +375,30 @@ def _err(msg_id, code: int, message: str) -> dict:
 
 
 def _send(obj: dict) -> None:
-    sys.stdout.write(json.dumps(obj, ensure_ascii=False) + "\n")
-    sys.stdout.flush()
+    """写一条 JSON 行。必须走 buffer 按 UTF-8 写。
+
+    MCP over stdio 规定 UTF-8。直接 sys.stdout.write 会用 locale 编码，
+    Windows 上是 cp1252，中文一出去就 UnicodeEncodeError。
+    """
+    data = json.dumps(obj, ensure_ascii=False) + "\n"
+    try:
+        sys.stdout.buffer.write(data.encode("utf-8"))
+        sys.stdout.buffer.flush()
+    except (AttributeError, ValueError):
+        sys.stdout.write(data)
+        sys.stdout.flush()
+
+
+def _stdin_lines():
+    """按字节读再按 UTF-8 解码，理由同 _send。"""
+    for raw in sys.stdin.buffer:
+        yield raw.decode("utf-8", errors="replace")
 
 
 def serve(data_dir: str | Path) -> int:
     session = Session(data_dir)
     try:
-        for line in sys.stdin:
+        for line in _stdin_lines():
             line = line.strip()
             if not line:
                 continue

@@ -7,6 +7,7 @@
 from pathlib import Path
 
 from PIL import Image, ImageDraw
+import _utf8  # noqa: F401  Windows 控制台默认 cp1252，不切 print 中文会崩
 
 SIZE = 240
 FACE = (255, 213, 26)
